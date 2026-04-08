@@ -1,0 +1,6 @@
+{
+  "name": "@autoguide/claude-skill",
+  "version": "0.1.0",
+  "description": "Claude Code skills for orchestrating Autoguide video guide generation",
+  "files": ["skills", "AGENTS.md"]
+}
