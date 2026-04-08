@@ -21,6 +21,7 @@
     "commander": "^12.1.0",
     "dotenv": "^16.4.0",
     "js-yaml": "^4.1.0",
+    "@remotion/media-parser": "^4.0.445",
     "playwright": "^1.48.0",
     "zod": "^3.23.0"
   },
