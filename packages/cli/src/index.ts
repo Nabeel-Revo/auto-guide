@@ -4,6 +4,7 @@ import { createPlanCommand } from './commands/plan';
 import { createStatusCommand } from './commands/status';
 import { createCaptureCommand } from './commands/capture';
 import { createVoiceoverCommand } from './commands/voiceover';
+import { createBuildCommand } from './commands/build';
 
 const program = new Command();
 
@@ -17,5 +18,6 @@ program.addCommand(createPlanCommand());
 program.addCommand(createStatusCommand());
 program.addCommand(createCaptureCommand());
 program.addCommand(createVoiceoverCommand());
+program.addCommand(createBuildCommand());
 
 program.parse();
