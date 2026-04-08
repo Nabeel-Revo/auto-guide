@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { createInitCommand } from './commands/init';
 import { createPlanCommand } from './commands/plan';
 import { createStatusCommand } from './commands/status';
+import { createCaptureCommand } from './commands/capture';
 
 const program = new Command();
 
@@ -13,5 +14,6 @@ program
 program.addCommand(createInitCommand());
 program.addCommand(createPlanCommand());
 program.addCommand(createStatusCommand());
+program.addCommand(createCaptureCommand());
 
 program.parse();
