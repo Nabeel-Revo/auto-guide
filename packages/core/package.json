@@ -1,0 +1,42 @@
+{
+  "name": "@autoguide/core",
+  "version": "0.1.0",
+  "description": "Remotion components, theme system, and types for Autoguide",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "remotion": "^4.0.0"
+  },
+  "dependencies": {
+    "@remotion/google-fonts": "^4.0.445"
+  },
+  "devDependencies": {
+    "@remotion/cli": "4.0.445",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.445",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.0"
+  }
+}

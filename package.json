@@ -1,0 +1,19 @@
+{
+  "name": "autoguide",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Automated video guide generator for software products",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "clean": "pnpm -r clean"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=18"
+  }
+}
