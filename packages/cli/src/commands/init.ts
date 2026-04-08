@@ -80,6 +80,32 @@ export function createInitCommand(): Command {
         logger.success(`Created ${dir}/`);
       }
 
+      // Scaffold Remotion entry point
+      const srcDir = path.join(cwd, 'src');
+      fs.mkdirSync(srcDir, { recursive: true });
+
+      // src/index.ts — Remotion entry
+      const indexPath = path.join(srcDir, 'index.ts');
+      if (!fs.existsSync(indexPath)) {
+        fs.writeFileSync(indexPath, `import { registerRoot } from 'remotion';
+import { RemotionRoot } from './Root';
+
+registerRoot(RemotionRoot);
+`, 'utf-8');
+        logger.success('Created src/index.ts');
+      }
+
+      // remotion.config.ts
+      const remotionConfigPath = path.join(cwd, 'remotion.config.ts');
+      if (!fs.existsSync(remotionConfigPath)) {
+        fs.writeFileSync(remotionConfigPath, `import { Config } from '@remotion/cli/config';
+
+Config.setVideoImageFormat('jpeg');
+Config.setOverwriteOutput(true);
+`, 'utf-8');
+        logger.success('Created remotion.config.ts');
+      }
+
       logger.blank();
       logger.info("Run 'autoguide plan <video-id>' to create your first video plan.");
     });

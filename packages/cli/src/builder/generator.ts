@@ -112,3 +112,89 @@ export function writeComposition(
 
   return { filePath, totalFrames };
 }
+
+export function generateRootTsx(
+  plans: Array<{ plan: VideoPlan; totalFrames: number }>,
+  config: AutoguideConfig,
+): string {
+  const fps = config.output.fps;
+  const fontFamily = config.branding.fonts?.heading ?? 'Inter Tight';
+  // Convert "Inter Tight" to "InterTight" for import path
+  const fontImport = fontFamily.replace(/\s+/g, '');
+
+  const imports = plans.map(({ plan }) => {
+    const name = pascalCase(plan.video.id);
+    return `import { ${name} } from './videos/${plan.video.id}/${name}';`;
+  }).join('\n');
+
+  const compositions = plans.map(({ plan, totalFrames }) => {
+    const name = pascalCase(plan.video.id);
+    return `      <Composition
+        id="${plan.video.id}"
+        component={${name}}
+        durationInFrames={${totalFrames}}
+        fps={${fps}}
+        width={${config.output.resolution.width}}
+        height={${config.output.resolution.height}}
+      />`;
+  }).join('\n');
+
+  return `import React from 'react';
+import { Composition } from 'remotion';
+import { loadFont } from '@remotion/google-fonts/${fontImport}';
+${imports}
+
+loadFont('normal', { weights: ['400', '500', '600', '700', '800'] });
+
+const FPS = ${fps};
+
+export const RemotionRoot: React.FC = () => {
+  return (
+    <>
+${compositions}
+    </>
+  );
+};
+`;
+}
+
+export function writeRootTsx(
+  plans: Array<{ plan: VideoPlan; totalFrames: number }>,
+  config: AutoguideConfig,
+  srcDir: string,
+): string {
+  const code = generateRootTsx(plans, config);
+  const filePath = path.join(srcDir, 'Root.tsx');
+  fs.mkdirSync(srcDir, { recursive: true });
+  fs.writeFileSync(filePath, code, 'utf-8');
+  return filePath;
+}
+
+export function generateThemeFile(config: AutoguideConfig): string {
+  const themeName = typeof config.branding.theme === 'string'
+    ? config.branding.theme
+    : config.branding.theme.preset ?? 'dark';
+
+  if (typeof config.branding.theme === 'string') {
+    return `import { createTheme } from '@autoguide/core';
+
+export const theme = createTheme('${themeName}');
+`;
+  }
+
+  // Custom overrides
+  const overrides = JSON.stringify(config.branding.theme, null, 2);
+  return `import { createTheme } from '@autoguide/core';
+
+export const theme = createTheme(${overrides});
+`;
+}
+
+export function writeThemeFile(config: AutoguideConfig, srcDir: string): string {
+  const code = generateThemeFile(config);
+  const stylesDir = path.join(srcDir, 'styles');
+  const filePath = path.join(stylesDir, 'theme.ts');
+  fs.mkdirSync(stylesDir, { recursive: true });
+  fs.writeFileSync(filePath, code, 'utf-8');
+  return filePath;
+}
